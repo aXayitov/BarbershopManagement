@@ -14,16 +14,16 @@ namespace BarbershopManagemen_Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Enrollment> builder)
         {
             builder.ToTable(nameof(Enrollment));
-            builder.HasKey(e => e.Id).HasAnnotation("SqlServer:Identity", "1, 1");
+            builder.HasKey(e => e.Id);
                 
 
             builder.HasOne(e => e.Barber)
                 .WithMany(b => b.Enrollments)
-                .HasForeignKey(e => e.Id);
+                .HasForeignKey(e => e.CustomerId);
 
             builder.HasOne(e => e.Customer)
                 .WithMany(c => c.Enrollments)
-                .HasForeignKey(e => e.Id);
+                .HasForeignKey(e => e.CustomerId);
         }
     }
 }

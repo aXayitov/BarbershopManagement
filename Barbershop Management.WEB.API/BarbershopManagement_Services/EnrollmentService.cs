@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BarbershopManagemen_Infrastructure.Extensions;
 using BarbershopManagemen_Infrastructure.Persistence;
 using BarbershopManagement_Domain.Entity;
 using BarbershopManagement_Domain.Exceptions;
@@ -31,7 +32,7 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.Date == enrollmentQueryParameters.EnrollmentDate);
             }
 
-            var result = await query.ToListAsync();
+            var result = await query.PaginatedListAsync(enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize); 
 
             return _mapper.Map<List<EnrollmentDto>>(result);
         }

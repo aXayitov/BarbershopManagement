@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarbershopManagemen_Infrastructure.Migrations
 {
     [DbContext(typeof(BarbershopDbContext))]
-    [Migration("20240730163600_intialCreate")]
-    partial class intialCreate
+    [Migration("20240818152307_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,10 @@ namespace BarbershopManagemen_Infrastructure.Migrations
             modelBuilder.Entity("BarbershopManagement_Domain.Entity.Enrollment", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BarberId")
                         .HasColumnType("int");
@@ -103,8 +106,9 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                     b.Property<int>("StyleId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasAnnotation("SqlServer:Identity", "1, 1");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("StyleId");
 
@@ -147,13 +151,13 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                 {
                     b.HasOne("BarbershopManagement_Domain.Entity.Barber", "Barber")
                         .WithMany("Enrollments")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BarbershopManagement_Domain.Entity.Customer", "Customer")
                         .WithMany("Enrollments")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

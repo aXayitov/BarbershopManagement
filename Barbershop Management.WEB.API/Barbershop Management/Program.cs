@@ -1,6 +1,7 @@
 
 using Barbershop_Management.Extensions;
 using Barbershop_Management.Middlewares;
+using BarbershopManagemen_Infrastructure.Persistence;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -26,6 +27,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
+
+    using var scope = app.Services.CreateScope();
+    using var context = scope.ServiceProvider.GetRequiredService<BarbershopDbContext>();
+    DataSeeder.SeedDatabase(context);
 }
 
 app.UseMiddleware<ExceptionHandler>();

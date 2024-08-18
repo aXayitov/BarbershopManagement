@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BarbershopManagemen_Infrastructure.Extensions;
 using BarbershopManagemen_Infrastructure.Persistence;
 using BarbershopManagement_Domain.Entity;
 using BarbershopManagement_Domain.Exceptions;
@@ -31,9 +32,7 @@ namespace BarbershopManagement_Services
                     (x.LastName != null && x.LastName.Contains(queryParameters.Search)));
             }
 
-            var result = await query.ToListAsync();
-
-
+            var result = await query.PaginatedListAsync(queryParameters.PageNumber, queryParameters.PageSize);
 
             return _mapper.Map<List<BarberDto>>(result);    
         }

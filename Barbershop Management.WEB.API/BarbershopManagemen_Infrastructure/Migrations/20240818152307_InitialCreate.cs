@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BarbershopManagemen_Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class intialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,8 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                 name: "Enrollment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     StyleId = table.Column<int>(type: "int", nullable: false),
                     BarberId = table.Column<int>(type: "int", nullable: false),
@@ -73,14 +74,14 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Enrollment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Barber_Id",
-                        column: x => x.Id,
+                        name: "FK_Enrollment_Barber_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Barber",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Customer_Id",
-                        column: x => x.Id,
+                        name: "FK_Enrollment_Customer_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -91,6 +92,11 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollment_CustomerId",
+                table: "Enrollment",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enrollment_StyleId",
