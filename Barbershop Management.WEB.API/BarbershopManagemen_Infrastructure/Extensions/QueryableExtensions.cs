@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BarbershopManagement_Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace BarbershopManagemen_Infrastructure.Extensions
                 .Take(pageSize)
                 .ToListAsync();
 
-            return items;
+            return new PaginatedList<T>(items, pageNumber, pageSize, totalCount);
         }
     }
 }
