@@ -1,4 +1,6 @@
 ﻿using BarbershopManagement_Domain.Entity;
+using BarbershopManagement_Domain.Entity.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagemen_Infrastructure.Persistence
 {
-    public class BarbershopDbContext(DbContextOptions<BarbershopDbContext> options) : DbContext(options)
+    public class BarbershopDbContext(DbContextOptions<BarbershopDbContext> options) : IdentityDbContext<User, Role, string>(options)
     {
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Barber> Barbers { get; set; }
