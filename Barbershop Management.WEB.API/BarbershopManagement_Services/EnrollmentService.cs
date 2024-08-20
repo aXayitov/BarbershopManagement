@@ -32,6 +32,11 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.Date == enrollmentQueryParameters.EnrollmentDate);
             }
 
+            if(enrollmentQueryParameters.InitialPayment is not null)
+            {
+                query = query.Where(x => x.InitialPayment ==  enrollmentQueryParameters.InitialPayment);
+            }
+
             var result = await query.PaginatedListAsync(enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize); 
 
             return _mapper.Map<List<EnrollmentDto>>(result);

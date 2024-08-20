@@ -4,6 +4,7 @@ using BarbershopManagemen_Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarbershopManagemen_Infrastructure.Migrations
 {
     [DbContext(typeof(BarbershopDbContext))]
-    partial class BarbershopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240820093446_Add InitialPayment in Enrollment")]
+    partial class AddInitialPaymentinEnrollment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,9 +108,6 @@ namespace BarbershopManagemen_Infrastructure.Migrations
 
                     b.Property<int>("StyleId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

@@ -9,6 +9,8 @@ namespace BarbershopManagement_Domain.Entity
 {
     public class Enrollment : EntityBase
     {
+        public decimal InitialPayment { get; set; }
+        public decimal TotalPrice { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public int StyleId { get; set; }

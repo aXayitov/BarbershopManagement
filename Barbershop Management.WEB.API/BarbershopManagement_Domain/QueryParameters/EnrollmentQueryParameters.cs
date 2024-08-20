@@ -8,6 +8,7 @@ namespace BarbershopManagement_Domain.QueryParameters
 {
     public class EnrollmentQueryParameters :QueryParametersBase
     {
+        public decimal? InitialPayment { get; set; }
         public DateTime? EnrollmentDate { get; set; }
     }
 }
