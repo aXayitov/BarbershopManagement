@@ -25,7 +25,7 @@ namespace BarbershopManagement_Services
 
         public async Task<List<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters)
         {
-            var query = _context.Enrollments.Include(x => x.Barber).Include(x => x.Customer).Include(x => x.Style).AsQueryable();
+            var query = _context.Enrollments.Include(x => x.Barber).Include(x => x.Customer).AsQueryable();
 
             if(enrollmentQueryParameters.EnrollmentDate is not null)
             {
@@ -37,7 +37,7 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.InitialPayment ==  enrollmentQueryParameters.InitialPayment);
             }
 
-            var result = await query.PaginatedListAsync(enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize); 
+            var result = await query.PaginatedListAsync(enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize);
 
             return _mapper.Map<List<EnrollmentDto>>(result);
         }

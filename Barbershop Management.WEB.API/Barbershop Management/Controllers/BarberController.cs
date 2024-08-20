@@ -1,7 +1,5 @@
 ﻿using BarbershopManagement_Domain.QueryParameters;
-using BarbershopManagement_Services;
 using BarbershopManagement_Services.DTOs.BarberDtos;
-using BarbershopManagement_Services.DTOs.StyleDtos;
 using BarbershopManagement_Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

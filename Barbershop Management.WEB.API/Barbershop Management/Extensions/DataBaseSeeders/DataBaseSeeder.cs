@@ -9,25 +9,12 @@ namespace Barbershop_Management.Extensions
     {
         public static void SeedDatabase(BarbershopDbContext context)
         {
-            CreateStyle(context);
             CreateCustomers(context);
             CreateBarbers(context);
+            CreateEnrollments(context);
         }
 
-        private static void CreateStyle(BarbershopDbContext context)
-        {
-           if (context.Styles.Any()) return;
-
-            var faker = FakeStyleCreator.Fake();
-
-            for(int i = 0; i < 50;  ++i)
-            {
-                var style = faker.Generate();
-                context.Styles.Add(style);
-            }
-
-            context.SaveChanges();
-        }
+      
         private static void CreateCustomers(BarbershopDbContext context)
         {
             if (context.Customers.Any()) return;
@@ -52,6 +39,36 @@ namespace Barbershop_Management.Extensions
             {
                 var barber = faker.Generate();
                 context.Barbers.Add(barber);
+            }
+
+            context.SaveChanges();
+        }
+        private static void CreateEnrollments(BarbershopDbContext context)
+        {
+            if (context.Enrollments.Any()) return;
+
+            var faker = new Faker();
+            var customers = context.Customers.ToArray();
+            var barbers = context.Barbers.ToArray();
+
+            for (int i = 0; i < 40; ++i)
+            {
+                var randomBarber = faker.Random.ArrayElement(barbers);
+                var reandomCustomer = faker.Random.ArrayElement(customers);
+
+                decimal initialPay = faker.Random.Decimal(100_000, 200_000);
+                decimal totalPrice = faker.Random.Decimal(initialPay * 2, initialPay * 4);
+
+                var enrollment = new Enrollment
+                {
+                    InitialPayment = initialPay,
+                    TotalPrice = totalPrice,
+                    CustomerId = reandomCustomer.Id,
+                    BarberId = randomBarber.Id,
+                    Date = faker.Date.Between(DateTime.Now.AddYears(-2), DateTime.Now)
+                };
+
+                context.Enrollments.Add(enrollment);
             }
 
             context.SaveChanges();

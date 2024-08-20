@@ -18,7 +18,7 @@ namespace BarbershopManagemen_Infrastructure.Extensions
         {
             var totalCount = source.Count();
             var items =  await source
-                .Skip(pageNumber * pageSize)
+                .Skip((pageNumber-1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 

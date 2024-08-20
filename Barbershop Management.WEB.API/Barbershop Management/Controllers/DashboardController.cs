@@ -7,7 +7,6 @@ namespace Barbershop_Management.Controllers
 {
     [ApiController]
     [Route("api/dashboard")]
-    [Authorize]
     public class DashboardController(IDashboardService dashboardService) : Controller
     {
         private readonly IDashboardService _dashboardService = dashboardService;

@@ -28,12 +28,12 @@ namespace Barbershop_Management.Extensions
         }
         private static void AddServices(IServiceCollection services)
         {
-            services.AddScoped<IStyleService, StyleService>();
             services.AddScoped<IBarberService, BarberService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
+            services.AddScoped<IDashboardService, DashboardService>();
 
-            services.AddAutoMapper(typeof(StyleMappings).Assembly);
+            //services.AddAutoMapper(typeof(BarberMappings).Assembly);
         }
 
         private static void AddInfrastructure(IServiceCollection services, IConfiguration configuration)
@@ -41,7 +41,7 @@ namespace Barbershop_Management.Extensions
             services.AddDbContext<BarbershopDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-           // services.AddAutoMapper(typeof(StyleMappings).Assembly);
+            services.AddAutoMapper(typeof(BarberMappings).Assembly);
         }
     }
 }

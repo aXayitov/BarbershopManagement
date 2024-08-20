@@ -103,9 +103,6 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                     b.Property<decimal>("InitialPayment")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("StyleId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -113,41 +110,7 @@ namespace BarbershopManagemen_Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("StyleId");
-
                     b.ToTable("Enrollment", (string)null);
-                });
-
-            modelBuilder.Entity("BarbershopManagement_Domain.Entity.Style", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("ExecutionTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<decimal>("Price")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(18, 2)
-                        .HasColumnType("money")
-                        .HasDefaultValue(0m);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Style", (string)null);
                 });
 
             modelBuilder.Entity("BarbershopManagement_Domain.Entity.Enrollment", b =>
@@ -164,17 +127,9 @@ namespace BarbershopManagemen_Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BarbershopManagement_Domain.Entity.Style", "Style")
-                        .WithMany()
-                        .HasForeignKey("StyleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Barber");
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Style");
                 });
 
             modelBuilder.Entity("BarbershopManagement_Domain.Entity.Barber", b =>

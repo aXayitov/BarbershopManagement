@@ -24,7 +24,7 @@ namespace BarbershopManagement_Services
 
         public async Task<List<BarberDto>> GetAllBarbersAsync(BarberQueryParameters queryParameters)
         {
-            var query = _context.Barbers.AsQueryable();
+            var query = _context.Barbers.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryParameters.Search))
             {

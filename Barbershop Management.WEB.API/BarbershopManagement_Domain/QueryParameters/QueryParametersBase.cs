@@ -19,6 +19,6 @@ namespace BarbershopManagement_Domain.QueryParameters
                 _pageSize = value > MAX_PAGESIZE ? MAX_PAGESIZE : value;
             }
         }
-        public int PageNumber { get; set; }
+        public int PageNumber { get; set; } = 1;
     }
 }

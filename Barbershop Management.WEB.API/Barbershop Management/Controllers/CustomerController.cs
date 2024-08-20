@@ -1,10 +1,7 @@
 ﻿using BarbershopManagement_Domain.QueryParameters;
-using BarbershopManagement_Services.DTOs.StyleDtos;
-using BarbershopManagement_Services;
 using BarbershopManagement_Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using BarbershopManagement_Services.DTOs.CustomerDtos;
-using BarbershopManagement_Domain.Entity;
 
 namespace Barbershop_Management.Controllers;
 [Route("api/customers")]
