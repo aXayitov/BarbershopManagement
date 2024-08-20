@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BarbershopManagement_Services.DTOs.Dashboard;
+using BarbershopManagement_Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barbershop_Management.Controllers
@@ -6,11 +8,16 @@ namespace Barbershop_Management.Controllers
     [ApiController]
     [Route("api/dashboard")]
     [Authorize]
-    public class DashboardController : Controller
+    public class DashboardController(IDashboardService dashboardService) : Controller
     {
-        public IActionResult Index()
+        private readonly IDashboardService _dashboardService = dashboardService;
+
+        [HttpGet]
+        public async Task<ActionResult<DashboardDto>> GetDashboardAsync()
         {
-            return View();
+            var dashboard = await _dashboardService.GetDashboardAsync();
+
+            return Ok(dashboard);
         }
     }
 }
