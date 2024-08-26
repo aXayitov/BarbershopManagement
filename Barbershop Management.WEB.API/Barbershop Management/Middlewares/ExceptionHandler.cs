@@ -1,5 +1,5 @@
-﻿using BarbershopManagement_Domain.Exceptions;
-using System.Net;
+﻿using System.Net;
+using WMS.Domain.Exceptions;
 
 namespace Barbershop_Management.Middlewares
 {

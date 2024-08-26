@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
-using BarbershopManagemen_Infrastructure.Extensions;
 using BarbershopManagemen_Infrastructure.Persistence;
+using BarbershopManagemen_Services.Extensions;
+using BarbershopManagement_Domain.Common;
 using BarbershopManagement_Domain.Entity;
-using BarbershopManagement_Domain.Exceptions;
 using BarbershopManagement_Domain.QueryParameters;
-using BarbershopManagement_Services.DTOs.CustomerDtos;
 using BarbershopManagement_Services.DTOs.EnrollmentDtos;
 using BarbershopManagement_Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WMS.Domain.Exceptions;
 
 namespace BarbershopManagement_Services
 {
@@ -23,7 +18,7 @@ namespace BarbershopManagement_Services
         private readonly BarbershopDbContext _context = context
             ?? throw new ArgumentNullException(nameof(context));
 
-        public async Task<List<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters)
+        public async Task<PaginatedList<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters)
         {
             var query = _context.Enrollments.Include(x => x.Barber).Include(x => x.Customer).AsQueryable();
 
@@ -37,9 +32,9 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.InitialPayment ==  enrollmentQueryParameters.InitialPayment);
             }
 
-            var result = await query.PaginatedListAsync(enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize);
+            var result = await query.PaginatedListAsync<EnrollmentDto, Enrollment>(_mapper.ConfigurationProvider ,enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize);
 
-            return _mapper.Map<List<EnrollmentDto>>(result);
+            return result;
         }
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int id)

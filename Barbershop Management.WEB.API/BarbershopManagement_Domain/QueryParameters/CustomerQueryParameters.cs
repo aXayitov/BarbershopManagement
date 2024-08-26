@@ -9,6 +9,5 @@ namespace BarbershopManagement_Domain.QueryParameters
 {
     public class CustomerQueryParameters : QueryParametersBase
     {
-        public MarketingType? marketingType { get; set; }    
     }
 }

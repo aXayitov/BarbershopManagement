@@ -14,19 +14,10 @@ namespace BarbershopManagement_Services.Mappings
         public CustomerMappings()
         {
             CreateMap<Customer, CustomerDto>()
-                .ForMember(x => x.FullName, r => r.MapFrom(e => GetFullName(e)));
+                .ForMember(x => x.FullName, r => r.MapFrom(e => e.FirstName + e.LastName));
             CreateMap<CustomerForCreateDto, Customer>();
             CreateMap<CustomerForUpdateDto, Customer>();
         }
 
-        private string GetFullName(Customer customer)
-        {
-            if (customer.LastName == null)
-            {
-                return customer.FirstName;
-            }
-
-            return customer.FirstName + " " + customer.LastName;
-        }
     }
 }

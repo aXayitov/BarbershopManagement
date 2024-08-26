@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
-using BarbershopManagemen_Infrastructure.Extensions;
 using BarbershopManagemen_Infrastructure.Persistence;
+using BarbershopManagemen_Services.Extensions;
+using BarbershopManagement_Domain.Common;
 using BarbershopManagement_Domain.Entity;
-using BarbershopManagement_Domain.Exceptions;
 using BarbershopManagement_Domain.QueryParameters;
 using BarbershopManagement_Services.DTOs.BarberDtos;
 using BarbershopManagement_Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WMS.Domain.Exceptions;
 
 namespace BarbershopManagement_Services
 {
@@ -22,7 +18,8 @@ namespace BarbershopManagement_Services
         private readonly BarbershopDbContext _context = context
             ?? throw new ArgumentNullException(nameof(context));
 
-        public async Task<List<BarberDto>> GetAllBarbersAsync(BarberQueryParameters queryParameters)
+
+        public async Task<PaginatedList<BarberDto>> GetAllBarbersAsync(BarberQueryParameters queryParameters)
         {
             var query = _context.Barbers.AsNoTracking().AsQueryable();
 
@@ -32,9 +29,9 @@ namespace BarbershopManagement_Services
                     (x.LastName != null && x.LastName.Contains(queryParameters.Search)));
             }
 
-            var result = await query.PaginatedListAsync(queryParameters.PageNumber, queryParameters.PageSize);
+            var result = await query.PaginatedListAsync<BarberDto, Barber>(_mapper.ConfigurationProvider, queryParameters.PageNumber, queryParameters.PageSize);
 
-            return _mapper.Map<List<BarberDto>>(result);    
+            return result;    
         }
         public async Task<BarberDto> GetBarberByIdAsync(int id)
         {

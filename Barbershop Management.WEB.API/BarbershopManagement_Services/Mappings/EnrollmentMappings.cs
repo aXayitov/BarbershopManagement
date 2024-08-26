@@ -14,8 +14,8 @@ namespace BarbershopManagement_Services.Mappings
         public EnrollmentMappings() 
         {
             CreateMap<Enrollment, EnrollmentDto>()
-                .ForMember(dto => dto.Customer, e => e.MapFrom(r => GetFullName(r.Customer)))
-                .ForMember(dto => dto.Barber, e => e.MapFrom(r => GetFullName(r.Barber)));
+                .ForMember(dto => dto.Customer, e => e.MapFrom(r => r.Customer.FirstName + r.Customer.LastName))
+                .ForMember(dto => dto.Barber, e => e.MapFrom(r => r.Barber.FirstName + r.Barber.LastName));
             CreateMap<EnrollmentForCreateDto, Enrollment>();
             CreateMap<EnrollmentForUpdateDto, Enrollment>();
         }

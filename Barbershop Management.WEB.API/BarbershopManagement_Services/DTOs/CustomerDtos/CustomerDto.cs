@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarbershopManagement_Services.DTOs.EnrollmentDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace BarbershopManagement_Services.DTOs.CustomerDtos
         public string FullName { get; init; }
         public string PhoneNumber { get; init; }
         public string? Email { get; init; }
+        public ICollection<EnrollmentDto> Enrollments { get; init; }
     }
 }

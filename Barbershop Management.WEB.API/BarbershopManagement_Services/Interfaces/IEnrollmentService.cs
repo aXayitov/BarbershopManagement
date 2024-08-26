@@ -1,4 +1,5 @@
-﻿using BarbershopManagement_Domain.QueryParameters;
+﻿using BarbershopManagement_Domain.Common;
+using BarbershopManagement_Domain.QueryParameters;
 using BarbershopManagement_Services.DTOs.CustomerDtos;
 using BarbershopManagement_Services.DTOs.EnrollmentDtos;
 using System;
@@ -11,7 +12,7 @@ namespace BarbershopManagement_Services.Interfaces
 {
     public interface IEnrollmentService
     {
-        Task<List<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters);
+        Task<PaginatedList<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters);
         Task<EnrollmentDto> GetEnrollmentByIdAsync(int id);
         Task<EnrollmentDto> CreateEnrollmentAsync(EnrollmentForCreateDto enrollmentForCreateDto);
         Task<EnrollmentDto> UpdateEnrollmentAsync(EnrollmentForUpdateDto enrollmentForUpdateDto);

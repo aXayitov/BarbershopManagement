@@ -14,7 +14,7 @@ namespace BarbershopManagement_Services.Mappings
         public BarberMappings() 
         {
             CreateMap<Barber, BarberDto>()
-                .ForMember(x => x.FullName, r => r.MapFrom(e => GetFullName(e)));
+                .ForMember(x => x.FullName, r => r.MapFrom(e => e.FirstName + e.LastName));
             CreateMap<BarberForCreateDto, Barber>();
             CreateMap<BarberForUpdateDto, Barber>();
         }
