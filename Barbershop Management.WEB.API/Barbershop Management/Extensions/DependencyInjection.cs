@@ -2,11 +2,14 @@
 using BarbershopManagement_Services;
 using BarbershopManagement_Services.Interfaces;
 using BarbershopManagement_Services.Mappings;
+using BarbershopManagement_Services.Validator.Barber;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Reflection;
 using System.Text;
 
@@ -21,6 +24,9 @@ namespace Barbershop_Management.Extensions
             AddControllers(services);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            services.AddValidatorsFromAssemblyContaining<BarberForCreateValidator>();
+            services.AddFluentValidationAutoValidation();
 
             return services;
         }
