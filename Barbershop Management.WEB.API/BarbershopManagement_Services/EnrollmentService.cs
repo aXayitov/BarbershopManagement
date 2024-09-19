@@ -20,7 +20,7 @@ namespace BarbershopManagement_Services
 
         public async Task<PaginatedList<EnrollmentDto>> GetAllEnrollmentsAsync(EnrollmentQueryParameters enrollmentQueryParameters)
         {
-            var query = _context.Enrollments.Include(x => x.Barber).Include(x => x.Customer).AsQueryable();
+            var query = _context.Enrollments.Include(x => x.Employee).Include(x => x.Customer).AsQueryable();
 
             if(enrollmentQueryParameters.EnrollmentDate is not null)
             {
@@ -32,6 +32,14 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.InitialPayment ==  enrollmentQueryParameters.InitialPayment);
             }
 
+            if(enrollmentQueryParameters.Search is not null)
+            {
+                query = query.Where(x => x.Customer.FirstName.Contains(enrollmentQueryParameters.Search)||
+                        x.Customer.LastName.Contains(enrollmentQueryParameters.Search)||
+                        x.Employee.FirstName.Contains(enrollmentQueryParameters.Search)||
+                        x.Employee.LastName.Contains(enrollmentQueryParameters.Search));
+            }
+
             var result = await query.PaginatedListAsync<EnrollmentDto, Enrollment>(_mapper.ConfigurationProvider ,enrollmentQueryParameters.PageNumber, enrollmentQueryParameters.PageSize);
 
             return result;
@@ -39,7 +47,7 @@ namespace BarbershopManagement_Services
 
         public async Task<EnrollmentDto> GetEnrollmentByIdAsync(int id)
         {
-            var entity = await _context.Enrollments.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Enrollments.Include(x => x.Employee).Include(x => x.Customer).FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity is null)
             {

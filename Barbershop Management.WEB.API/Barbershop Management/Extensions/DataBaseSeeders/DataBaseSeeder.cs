@@ -10,11 +10,10 @@ namespace Barbershop_Management.Extensions
         public static void SeedDatabase(BarbershopDbContext context)
         {
             CreateCustomers(context);
-            CreateBarbers(context);
+            CreateEmployee(context);
             CreateEnrollments(context);
         }
 
-      
         private static void CreateCustomers(BarbershopDbContext context)
         {
             if (context.Customers.Any()) return;
@@ -29,16 +28,23 @@ namespace Barbershop_Management.Extensions
 
             context.SaveChanges();
         }
-        private static void CreateBarbers(BarbershopDbContext context)
+        private static void CreateEmployee(BarbershopDbContext context)
         {
-            if (context.Barbers.Any()) return;
+            if (context.Employees.Any()) return;
 
-            var faker = FakeBarberCreator.Fake();
+            var faker = new Faker();
+            var positions = context.Positions.ToArray();
+
+            var employeeFaker = FakeEmployeeCreator.Fake();
 
             for (int i = 0; i < 50; i++)
             {
-                var barber = faker.Generate();
-                context.Barbers.Add(barber);
+                var position = faker.Random.ArrayElement(positions);
+
+                var barber = employeeFaker.Generate();
+                barber.Position = position;
+
+                context.Employees.Add(barber);
             }
 
             context.SaveChanges();
@@ -49,7 +55,7 @@ namespace Barbershop_Management.Extensions
 
             var faker = new Faker();
             var customers = context.Customers.ToArray();
-            var barbers = context.Barbers.ToArray();
+            var barbers = context.Employees.ToArray();
 
             for (int i = 0; i < 40; ++i)
             {
@@ -64,7 +70,7 @@ namespace Barbershop_Management.Extensions
                     InitialPayment = initialPay,
                     TotalPrice = totalPrice,
                     CustomerId = reandomCustomer.Id,
-                    BarberId = randomBarber.Id,
+                    EmployeeId = randomBarber.Id,
                     Date = faker.Date.Between(DateTime.Now.AddYears(-2), DateTime.Now)
                 };
 

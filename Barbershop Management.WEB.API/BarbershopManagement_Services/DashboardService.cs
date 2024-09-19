@@ -37,7 +37,7 @@ namespace BarbershopManagement_Services
         {
             var summary = new SummaryDto();
             summary.Revenue = _context.Enrollments.Sum(x => x.TotalPrice);
-            summary.LowQuantityBarbers = _context.Barbers.Count();
+            summary.LowQuantityBarbers = _context.Employees.Count();
             summary.CustomersAmount = _context.Customers.Count();
 
             return summary;
@@ -45,7 +45,7 @@ namespace BarbershopManagement_Services
         private async Task<List<EnrollmentsByBarber>> GetEnrollmentsByBarberAsync()
         {
             var enrollmentsByBarber = from enrollment in _context.Enrollments
-                                      join barber in _context.Barbers on enrollment.BarberId equals barber.Id
+                                      join barber in _context.Employees on enrollment.EmployeeId equals barber.Id
                                       where enrollment.Date.Month == DateTime.Now.Month && enrollment.Date.Year == DateTime.Now.Year
                                       orderby barber.FirstName
                                       group enrollment by new { barber.Id, barber.FirstName } into groupedEnrollments

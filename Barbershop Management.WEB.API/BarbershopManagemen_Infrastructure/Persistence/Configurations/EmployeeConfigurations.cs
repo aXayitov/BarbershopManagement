@@ -9,16 +9,20 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagemen_Infrastructure.Persistence.Configurations
 {
-    public class BarberConfigurations : IEntityTypeConfiguration<Barber>
+    public class EmployeeConfigurations : IEntityTypeConfiguration<Employee>
     {
-        public void Configure(EntityTypeBuilder<Barber> builder)
+        public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.ToTable(nameof(Barber));
+            builder.ToTable(nameof(Employee));
             builder.HasKey(x => x.Id);
 
             builder.HasMany(b => b.Enrollments)
-                .WithOne(e => e.Barber)
-                .HasForeignKey(e => e.BarberId);
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeId);
+
+            builder.HasOne(e => e.Position)
+                .WithMany(p => p.Employees)
+                .HasForeignKey(e => e.PositionId);
 
             builder.Property(x => x.FirstName)
                 .HasMaxLength(100)

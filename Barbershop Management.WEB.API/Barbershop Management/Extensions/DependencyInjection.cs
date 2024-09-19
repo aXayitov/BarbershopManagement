@@ -3,15 +3,10 @@ using BarbershopManagement_Services;
 using BarbershopManagement_Services.Interfaces;
 using BarbershopManagement_Services.Mappings;
 using BarbershopManagement_Services.Validator.Barber;
+using Newtonsoft.Json;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using System.Reflection;
-using System.Text;
 
 namespace Barbershop_Management.Extensions
 {
@@ -25,13 +20,20 @@ namespace Barbershop_Management.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddValidatorsFromAssemblyContaining<BarberForCreateValidator>();
+            services.AddValidatorsFromAssemblyContaining<EmployeeForCreateValidator>();
             services.AddFluentValidationAutoValidation();
 
             return services;
         }
         private static void AddControllers(IServiceCollection services)
         {
+            services.AddControllers()
+                 .AddNewtonsoftJson(options =>
+                 {
+                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                     options.SerializerSettings.Formatting = Formatting.Indented;
+                 });
+
             services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
@@ -39,10 +41,11 @@ namespace Barbershop_Management.Extensions
         }
         private static void AddServices(IServiceCollection services)
         {
-            services.AddScoped<IBarberService, BarberService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IPositionService, PositionService>();
 
             //services.AddAutoMapper(typeof(BarberMappings).Assembly);
         }
@@ -51,7 +54,7 @@ namespace Barbershop_Management.Extensions
             services.AddDbContext<BarbershopDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAutoMapper(typeof(BarberMappings).Assembly);
+            services.AddAutoMapper(typeof(EmployeeMappings).Assembly);
         }
     }
 }

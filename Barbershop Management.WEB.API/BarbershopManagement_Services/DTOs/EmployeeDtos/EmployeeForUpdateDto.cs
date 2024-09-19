@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagement_Services.DTOs.BarberDtos
 {
-    public record BarberForUpdateDto(int Id, string FirstName, string? LastName, string PhoneNumber);
+    public record EmployeeForUpdateDto(
+        int Id,
+        int PositionId,
+        string FirstName,
+        string? LastName,
+        string PhoneNumber);
 }

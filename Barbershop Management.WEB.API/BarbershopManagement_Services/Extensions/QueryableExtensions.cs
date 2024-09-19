@@ -21,6 +21,8 @@ namespace BarbershopManagemen_Services.Extensions
                 .ProjectTo<T>(configurationProvider)
                 .ToListAsync();
 
+            int g = 0;
+
             return new PaginatedList<T>(items, pageNumber, pageSize, totalCount);
         }
     }

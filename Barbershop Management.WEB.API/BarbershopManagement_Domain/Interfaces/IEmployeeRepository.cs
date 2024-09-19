@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagement_Domain.Interfaces
 {
-    public interface IBarberRepository : IRepositoryBase<Barber>
+    public interface IEmployeeRepository : IRepositoryBase<Position>
     {
-        List<Barber> FindAll(BarberQueryParameters queryParameters);
-        Barber FindBarberById(int id);
-        Barber CreateBarber(Barber barber);
-        Barber UpdateBarber(Barber barber);
+        List<Position> FindAll(EmployeeQueryParameters queryParameters);
+        Position FindBarberById(int id);
+        Position CreateBarber(Position barber);
+        Position UpdateBarber(Position barber);
         void DeleteBarber(int id);
     }
 }

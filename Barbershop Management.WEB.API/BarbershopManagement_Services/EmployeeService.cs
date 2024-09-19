@@ -11,7 +11,7 @@ using WMS.Domain.Exceptions;
 
 namespace BarbershopManagement_Services
 {
-    public class BarberService(IMapper mapper, BarbershopDbContext context) : IBarberService
+    public class EmployeeService(IMapper mapper, BarbershopDbContext context) : IEmployeeService
     {
         private readonly IMapper _mapper = mapper
             ?? throw new ArgumentNullException(nameof(mapper));
@@ -19,9 +19,9 @@ namespace BarbershopManagement_Services
             ?? throw new ArgumentNullException(nameof(context));
 
 
-        public async Task<PaginatedList<BarberDto>> GetAllBarbersAsync(BarberQueryParameters queryParameters)
+        public async Task<PaginatedList<EmployeeDto>> GetAllBarbersAsync(EmployeeQueryParameters queryParameters)
         {
-            var query = _context.Barbers.AsNoTracking().AsQueryable();
+            var query = _context.Employees.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryParameters.Search))
             {
@@ -29,54 +29,54 @@ namespace BarbershopManagement_Services
                     (x.LastName != null && x.LastName.Contains(queryParameters.Search)));
             }
 
-            var result = await query.PaginatedListAsync<BarberDto, Barber>(_mapper.ConfigurationProvider, queryParameters.PageNumber, queryParameters.PageSize);
+            var result = await query.PaginatedListAsync<EmployeeDto, Employee>(_mapper.ConfigurationProvider, queryParameters.PageNumber, queryParameters.PageSize);
 
             return result;    
         }
-        public async Task<BarberDto> GetBarberByIdAsync(int id)
+        public async Task<EmployeeDto> GetBarberByIdAsync(int id)
         {
-            var entity = await _context.Barbers.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Employees.Include(x => x.Enrollments).FirstOrDefaultAsync(x => x.Id == id);
 
             if(entity == null)
             {
                 throw new EntityNotFoundException($"Barber with id: {id} does not exist.");
             }
 
-            return _mapper.Map<BarberDto>(entity);
+            return _mapper.Map<EmployeeDto>(entity);
         }
-        public async Task<BarberDto> CreateBarberAsync(BarberForCreateDto barber)
+        public async Task<EmployeeDto> CreateBarberAsync(EmployeeForCreateDto barber)
         {
-            var entity = _mapper.Map<Barber>(barber);
+            var entity = _mapper.Map<Employee>(barber);
 
-            var createdEntity = await _context.Barbers.AddAsync(entity);
+            var createdEntity = await _context.Employees.AddAsync(entity);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<BarberDto>(createdEntity.Entity);
+            return _mapper.Map<EmployeeDto>(createdEntity.Entity);
         }
-        public async Task<BarberDto> UpdateBarberAsync(BarberForUpdateDto barber)
+        public async Task<EmployeeDto> UpdateBarberAsync(EmployeeForUpdateDto barber)
         {
-            if (!_context.Barbers.Any(x => x.Id == barber.Id))
+            if (!_context.Employees.Any(x => x.Id == barber.Id))
             {
                 throw new EntityNotFoundException($"Barber with id: {barber.Id} does not exist.");
             }
 
-            var entity = _mapper.Map<Barber>(barber);
+            var entity = _mapper.Map<Employee>(barber);
 
-            _context.Barbers.Update(entity);
+            _context.Employees.Update(entity);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<BarberDto>(entity);
+            return _mapper.Map<EmployeeDto>(entity);
         }
         public async Task DeleteBarberAsync(int id)
         {
-            var entity = await _context.Barbers.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity is null)
             {
                 throw new EntityNotFoundException($"Barber with id: {id} does not exist.");
             }
 
-            _context.Barbers.Remove(entity);
+            _context.Employees.Remove(entity);
             await _context.SaveChangesAsync();
         }
     }

@@ -16,9 +16,9 @@ namespace BarbershopManagemen_Infrastructure.Persistence.Configurations
             builder.ToTable(nameof(Enrollment));
             builder.HasKey(e => e.Id);
                 
-            builder.HasOne(e => e.Barber)
+            builder.HasOne(e => e.Employee)
                 .WithMany(b => b.Enrollments)
-                .HasForeignKey(e => e.CustomerId);
+                .HasForeignKey(e => e.EmployeeId);
 
             builder.HasOne(e => e.Customer)
                 .WithMany(c => c.Enrollments)

@@ -7,6 +7,7 @@ using BarbershopManagement_Domain.QueryParameters;
 using BarbershopManagement_Services.DTOs.CustomerDtos;
 using BarbershopManagement_Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using WMS.Domain.Exceptions;
 
 namespace BarbershopManagement_Services
@@ -17,8 +18,10 @@ namespace BarbershopManagement_Services
            ?? throw new ArgumentNullException(nameof(mapper));
         private readonly BarbershopDbContext _context = context
             ?? throw new ArgumentNullException(nameof(context));
+
         public async Task<PaginatedList<CustomerDto>> GetAllCustomersAsync(CustomerQueryParameters queryParameter)
         {
+            // Deffered execution
             var query = _context.Customers.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryParameter.Search))
@@ -31,9 +34,10 @@ namespace BarbershopManagement_Services
 
             return result;
         }
+
         public async Task<CustomerDto> GetCustomerByIdAsync(int id)
         {
-            var entity = await _context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Customers.Include(x => x.Enrollments).FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {

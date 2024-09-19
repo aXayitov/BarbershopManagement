@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagement_Domain.QueryParameters
 {
-    public class BarberQueryParameters : QueryParametersBase
+    public class PositionQueryParameters : QueryParametersBase
     {
     }
 }

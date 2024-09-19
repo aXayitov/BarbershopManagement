@@ -26,9 +26,9 @@ public class CustomerController(ICustomerService customerService) : ControllerBa
     }
 
     [HttpPost]
-    public async Task<ActionResult<CustomerDto>> Create(CustomerForCreateDto customerQueryParameters)
+    public async Task<ActionResult<CustomerDto>> Create(CustomerForCreateDto customerForCreateDto)
     {
-        var result = await _customerService.CreateCustomerAsync(customerQueryParameters);
+        var result = await _customerService.CreateCustomerAsync(customerForCreateDto);
         return Created("GetCustomerById", result);
     }
 

@@ -7,5 +7,9 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagement_Services.DTOs.BarberDtos
 {
-    public record BarberForCreateDto(string FirstName, string? LastName, string PhoneNumber);
+    public record EmployeeForCreateDto(
+        int PositionId, 
+        string FirstName, 
+        string? LastName, 
+        string PhoneNumber);
 }
