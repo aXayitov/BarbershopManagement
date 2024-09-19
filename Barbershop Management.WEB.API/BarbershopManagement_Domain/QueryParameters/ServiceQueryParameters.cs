@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BarbershopManagement_Domain.QueryParameters
 {
-    public class EnrollmentQueryParameters :QueryParametersBase
+    public class ServiceQueryParameters : QueryParametersBase
     {
-        public DateTime? EnrollmentDate { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
     }
 }

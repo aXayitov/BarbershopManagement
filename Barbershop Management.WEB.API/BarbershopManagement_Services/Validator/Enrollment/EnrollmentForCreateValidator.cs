@@ -19,14 +19,6 @@ namespace BarbershopManagement_Services.Validator.Enrollment
                 .Must(BeAValidTime)
                 .WithMessage("Registration time must be within the current time or the next 7 days.");
 
-            RuleFor(enrollment => enrollment.InitialPayment)
-                .GreaterThan(0)
-                .WithMessage("Initial payment must be more than 0.");
-
-            RuleFor(enrollment => enrollment.TotalPrice)
-                .GreaterThan(50_000)
-                .WithMessage("Service price must be more than 50.000 sum.");
-
             RuleFor(enrollment => enrollment.CustomerId)
                 .Custom((customerId, context) =>
                 {

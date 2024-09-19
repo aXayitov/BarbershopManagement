@@ -13,8 +13,8 @@ namespace BarbershopManagement_Services.DTOs.EnrollmentDtos
         public string Customer { get; init; }
         public int EmployeeId { get; init; }
         public string Employee { get; init; }
-        public decimal InitialPayment { get; init; }
-        public decimal TotalPrice { get; init; }
+        public int ServiceId { get; set; }
+        public string Service { get; set; }
         public DateTime Date { get; init; }
     }
 }

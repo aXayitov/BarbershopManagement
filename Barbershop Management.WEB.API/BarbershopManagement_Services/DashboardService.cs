@@ -36,7 +36,7 @@ namespace BarbershopManagement_Services
         private async Task<SummaryDto> GetSummaryAsync()
         {
             var summary = new SummaryDto();
-            summary.Revenue = _context.Enrollments.Sum(x => x.TotalPrice);
+            summary.Revenue = _context.Enrollments.Sum(x => x.Service.Price);
             summary.LowQuantityBarbers = _context.Employees.Count();
             summary.CustomersAmount = _context.Customers.Count();
 
@@ -68,7 +68,7 @@ namespace BarbershopManagement_Services
                 .Select(x => new SplineChart
                 {
                     Month =x.Key,
-                    Income = x.Sum(x => x.TotalPrice)
+                    Income = x.Sum(x => x.Service.Price)
                 });
             var months = Enumerable.Range(0, 12)
                 .Select(x => DateTime.Now.AddMonths(-x).ToString("MMMM"))
@@ -93,7 +93,7 @@ namespace BarbershopManagement_Services
                 .Select(x => new TransactionDto
                 {
                     Id = x.Id,
-                    Amount = x.InitialPayment,
+                    Amount = x.Service.Price,
                     Date = x.Date,
                     Type = "Enrollment"
                 });

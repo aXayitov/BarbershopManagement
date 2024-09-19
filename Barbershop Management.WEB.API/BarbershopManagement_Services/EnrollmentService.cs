@@ -27,11 +27,6 @@ namespace BarbershopManagement_Services
                 query = query.Where(x => x.Date == enrollmentQueryParameters.EnrollmentDate);
             }
 
-            if(enrollmentQueryParameters.InitialPayment is not null)
-            {
-                query = query.Where(x => x.InitialPayment ==  enrollmentQueryParameters.InitialPayment);
-            }
-
             if(enrollmentQueryParameters.Search is not null)
             {
                 query = query.Where(x => x.Customer.FirstName.Contains(enrollmentQueryParameters.Search)||

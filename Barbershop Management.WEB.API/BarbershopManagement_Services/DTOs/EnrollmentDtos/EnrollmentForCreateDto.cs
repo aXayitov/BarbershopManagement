@@ -10,8 +10,7 @@ namespace BarbershopManagement_Services.DTOs.EnrollmentDtos
     {
         public int CustomerId { get; init; }
         public int BarberId { get; init; }
-        public decimal InitialPayment { get; init; }
-        public decimal TotalPrice { get; init; }
+        public int ServiceId { get; set; }
         public DateTime Date { get; init; }
     }
 }

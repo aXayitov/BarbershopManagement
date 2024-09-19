@@ -17,7 +17,7 @@ namespace BarbershopManagement_Services.Validator.Barber
         {
             RuleFor(employee => employee.FirstName)
                 .NotEmpty()
-                .MinimumLength(2)
+                .MinimumLength(5)
                 .WithMessage("Barber's first name must have at least 5 characters.")
                 .MaximumLength(50)
                 .WithMessage("Barber's first name must have maximum 50 characters.")

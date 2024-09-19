@@ -56,21 +56,19 @@ namespace Barbershop_Management.Extensions
             var faker = new Faker();
             var customers = context.Customers.ToArray();
             var barbers = context.Employees.ToArray();
+            var services = context.Services.ToArray();
 
             for (int i = 0; i < 40; ++i)
             {
                 var randomBarber = faker.Random.ArrayElement(barbers);
                 var reandomCustomer = faker.Random.ArrayElement(customers);
-
-                decimal initialPay = faker.Random.Decimal(100_000, 200_000);
-                decimal totalPrice = faker.Random.Decimal(initialPay * 2, initialPay * 4);
+                var randomService = faker.Random.ArrayElement(services);
 
                 var enrollment = new Enrollment
                 {
-                    InitialPayment = initialPay,
-                    TotalPrice = totalPrice,
                     CustomerId = reandomCustomer.Id,
                     EmployeeId = randomBarber.Id,
+                    ServiceId = randomService.Id,
                     Date = faker.Date.Between(DateTime.Now.AddYears(-2), DateTime.Now)
                 };
 
