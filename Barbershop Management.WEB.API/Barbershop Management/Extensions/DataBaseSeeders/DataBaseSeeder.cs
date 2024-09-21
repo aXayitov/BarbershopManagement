@@ -14,6 +14,7 @@ namespace Barbershop_Management.Extensions
             CreateEmployee(context);
             CreateEnrollments(context);
             CreatePayments(context);
+           // CreateStatusForEnrollment(context);
         }
 
         private static void CreateCustomers(BarbershopDbContext context)
@@ -79,6 +80,22 @@ namespace Barbershop_Management.Extensions
 
             context.SaveChanges();
         }
+
+        //private static void CreateStatusForEnrollment(BarbershopDbContext context)
+        //{
+        //    var enrollments = context.Enrollments.ToArray();
+        //    int enrollmentsCount = enrollments.Length;
+
+        //    var faker = new Faker();
+
+        //    for(int i = 0; i < enrollmentsCount; ++i)
+        //    {
+        //        var enrollment = enrollments[i];
+
+        //        enrollment.Status = faker.Random.Enum<Status>();
+        //    }
+        //    context.SaveChanges();
+        //}
 
         private static void CreatePayments(BarbershopDbContext context)
         {

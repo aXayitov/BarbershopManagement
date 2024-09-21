@@ -35,11 +35,16 @@ namespace BarbershopManagement_Services
         }
         public async Task<EmployeeDto> GetBarberByIdAsync(int id)
         {
-            var entity = await _context.Employees.Include(x => x.Enrollments).FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Employees
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Service)
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Customer)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if(entity == null)
             {
-                throw new EntityNotFoundException($"Barber with id: {id} does not exist.");
+                throw new EntityNotFoundException($"Employee with id: {id} does not exist.");
             }
 
             return _mapper.Map<EmployeeDto>(entity);
@@ -57,7 +62,7 @@ namespace BarbershopManagement_Services
         {
             if (!_context.Employees.Any(x => x.Id == barber.Id))
             {
-                throw new EntityNotFoundException($"Barber with id: {barber.Id} does not exist.");
+                throw new EntityNotFoundException($"Employee with id: {barber.Id} does not exist.");
             }
 
             var entity = _mapper.Map<Employee>(barber);
@@ -73,7 +78,7 @@ namespace BarbershopManagement_Services
 
             if (entity is null)
             {
-                throw new EntityNotFoundException($"Barber with id: {id} does not exist.");
+                throw new EntityNotFoundException($"Employee with id: {id} does not exist.");
             }
 
             _context.Employees.Remove(entity);

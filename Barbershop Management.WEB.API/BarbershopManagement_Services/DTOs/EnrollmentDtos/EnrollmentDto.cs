@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarbershopManagement_Domain.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace BarbershopManagement_Services.DTOs.EnrollmentDtos
         public int ServiceId { get; set; }
         public string Service { get; set; }
         public DateTime Date { get; init; }
+        public string Status { get; set; }
     }
 }

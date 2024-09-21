@@ -16,5 +16,15 @@ namespace BarbershopManagement_Domain.Entity
         public int ServiceId { get; set; }
         public Service Service { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        public Status Status { get; set; }
+    }
+    public enum Status
+    {
+        Scheduled,
+        Completed,
+        Cancelled,
+        NoShow,
+        InProgress,
+        Rescheduled
     }
 }

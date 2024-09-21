@@ -23,6 +23,10 @@ namespace BarbershopManagemen_Infrastructure.Persistence.Configurations
             builder.HasOne(e => e.Customer)
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.CustomerId);
+
+            builder.Property(e => e.Status)
+                .HasConversion<string>()
+                .IsRequired();
         }
     }
 }
