@@ -35,8 +35,7 @@ namespace BarbershopManagement_Services
 
         public async Task<PositionDto> GetPositionByIdAsync(int id)
         {
-            var entity = await _context.Positions.FirstOrDefaultAsync(x => x.Id == id);
-            var employees = await _context.Employees.Where(x => x.PositionId == id).ToListAsync();
+            var entity = await _context.Positions.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {
@@ -44,8 +43,6 @@ namespace BarbershopManagement_Services
             }
 
             var positionDto = _mapper.Map<PositionDto>(entity);
-            positionDto.Employees = employees;
-
             return positionDto;
         }
 

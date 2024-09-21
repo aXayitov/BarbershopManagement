@@ -55,7 +55,12 @@ namespace BarbershopManagement_Services
 
         public async Task<ServiceDto> GetServiceByIdAsync(int id)
         {
-            var entity = await _context.Services.FirstOrDefaultAsync(x => x.Id == id)
+            var entity = await _context.Services
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Customer)
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Employee)
+                .FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new EntityNotFoundException($"Service with {id} does not exist.");
 
             return _mapper.Map<ServiceDto>(entity);

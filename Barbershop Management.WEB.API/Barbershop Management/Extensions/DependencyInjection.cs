@@ -47,6 +47,7 @@ namespace Barbershop_Management.Extensions
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<IServiceService, ServicesServic>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             //services.AddAutoMapper(typeof(BarberMappings).Assembly);
         }

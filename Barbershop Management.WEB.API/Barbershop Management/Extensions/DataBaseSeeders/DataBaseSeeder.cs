@@ -1,5 +1,6 @@
 ﻿using Barbershop_Management.Extensions.DataBaseSeeders;
 using BarbershopManagemen_Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using BarbershopManagement_Domain.Entity;
 using Bogus;
 
@@ -12,6 +13,7 @@ namespace Barbershop_Management.Extensions
             CreateCustomers(context);
             CreateEmployee(context);
             CreateEnrollments(context);
+            CreatePayments(context);
         }
 
         private static void CreateCustomers(BarbershopDbContext context)
@@ -73,6 +75,30 @@ namespace Barbershop_Management.Extensions
                 };
 
                 context.Enrollments.Add(enrollment);
+            }
+
+            context.SaveChanges();
+        }
+
+        private static void CreatePayments(BarbershopDbContext context)
+        {
+            if(context.Payments.Any()) return;
+
+            var faker = new Faker();
+            var enrollments = context.Enrollments.Include(x => x.Service).ToArray();
+            int enrollmentsCount = enrollments.Length;
+
+            for(int i = 0; i < enrollmentsCount; ++i)
+            {
+                var payment = new Payment
+                {
+                    EnrollmentId = enrollments[i].Id,
+                    Amount = enrollments[i].Service.Price,
+                    PaymentDate = enrollments[i].Date,
+                    PaymentType = faker.Random.Enum<PaymentMethod>()
+                };
+
+                context.Payments.Add(payment);
             }
 
             context.SaveChanges();

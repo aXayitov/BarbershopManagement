@@ -11,6 +11,7 @@ namespace BarbershopManagemen_Infrastructure.Persistence
         public virtual DbSet<Enrollment> Enrollments { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

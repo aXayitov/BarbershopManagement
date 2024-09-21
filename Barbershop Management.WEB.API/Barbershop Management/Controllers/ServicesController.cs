@@ -10,7 +10,8 @@ namespace Barbershop_Management.Controllers
     [ApiController]
     public class ServicesController(IServiceService service) : ControllerBase
     {
-        private readonly IServiceService _service = service ?? throw new ArgumentNullException(nameof(service));
+        private readonly IServiceService _service = service
+            ?? throw new ArgumentNullException(nameof(service));
 
         [HttpGet]
         [HttpHead]

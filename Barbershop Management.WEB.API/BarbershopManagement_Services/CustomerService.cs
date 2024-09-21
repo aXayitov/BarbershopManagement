@@ -37,7 +37,12 @@ namespace BarbershopManagement_Services
 
         public async Task<CustomerDto> GetCustomerByIdAsync(int id)
         {
-            var entity = await _context.Customers.Include(x => x.Enrollments).FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Customers
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Employee)
+                .Include(x => x.Enrollments)
+                .ThenInclude(x => x.Service)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {

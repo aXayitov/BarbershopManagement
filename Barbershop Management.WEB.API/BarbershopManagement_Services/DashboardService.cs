@@ -62,6 +62,9 @@ namespace BarbershopManagement_Services
         {
             var incomeTotal = _context
                 .Enrollments
+                .Include(x => x.Service)
+                .Include(y => y.Customer)
+                .Include(x => x.Employee)
                 .Where(x => x.Date > DateTime.Now.AddYears(-1))
                 .ToList()
                 .GroupBy(x => x.Date.ToString("MMMM"))
